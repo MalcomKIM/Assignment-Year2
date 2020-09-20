@@ -1,0 +1,43 @@
+     	Solution:
+		Input sequence A= {A[1], A[2], …, A[n]}
+		Define I(i) to be the length of the longest increasing subsequence that ends at position i. (1<=i<=n)
+		Define D(i) to be the length of the longest decreasing subsequence that starts at position i. (1<=i<=n)
+		Suppose A[i] is the biggest number of a Bubble sequence, 
+		then the length of this Bubble sequence is L(i) = I(i) + D(i) -1 (1<= i <=n). 
+		(-1 because A[i] is counted twice both in I(i) and D(i).)
+		Then the solution to the Longest Bubble problem is equal to L = max{L(2), L(3),…, L(n-1)}. 
+		L(1) and L(n) cannot be the solution, because A[1] and A[n] are the start and end point of A, 
+		which means they cannot be the largest number of any Bubble sequence.
+		
+		Step 1: compute I(i)
+		Set I(1)=1, I(2)=1, ...,I(n)=1, 
+		because the length of the longest increasing sequence start any point is at least 1.
+		I(i+1)=1+max_{I(j): A[j] < A[i+1]} (1<=j<=i)
+		
+		Step 2: compute D(i)
+		Given an array B[1,...,n] ={A[n], A[n-1],..., A[1]}, B is a reversed array of A.
+		then instead of computing the length of the longest decreasing subsequence that starts at position i,
+		we can compute  the length of the longest increasing sequence ends at position i, similar to step 1.
+		Notice: we should also reverse D(1), D(2),... ,D(n) after we get the results.
+		
+		Step 3: compute the max L
+		Set L=0;
+		then L = max_[I(i)+D(i): I(i)>1 and D(i)>1] (2<=i<=n-1)
+		We must ensure I(i)>1 and D(i)>1 because A[i] cannot be 
+		the start point of a increasing subsequence 
+		or the end point of a decreasing subsequence.
+		Otherwise there is no Bubble sequence existing.
+
+        1.Compute I(i) 
+        Computing I(i+1) requires us to check all of the values A[1], A[2],...,A[i],i.e. O(i) time.
+        In total, computing all of the I(i) values takes O(1+2+3+ ···+n) = O(n^2) time.
+        
+        2.Compute D(i) 
+        Reverse A takes O(n).
+        Computing D(i) takes O(n^2), same as computing I(i).
+        Reverse D takes O(n).
+        
+        3.Find the value of L
+        L = max_[I(i)+D(i): I(i)>1 and D(i)>1] takes O(n) time.
+        
+        Thus, finding the length of longest Bubble sequence takes O(n^2).

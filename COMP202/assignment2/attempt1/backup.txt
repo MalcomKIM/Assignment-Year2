@@ -1,0 +1,56 @@
+import java.util.Arrays;  
+
+public static int LongestBubble(int[] A, int n){
+		int res=0;
+		boolean incr_flag=false;
+		boolean decr_flag=false;
+		int[] B=reverse(A, n);
+
+		int[] incr=new int[n];
+		int[] decr=new int[n];
+		
+		Arrays.fill(incr, 1);
+		Arrays.fill(decr, 1);
+		
+		for(int i=0;i<n;i++) {
+			for(int j=0;j<i;j++) {
+				if(A[j]<A[i]) {
+					incr[i]=Math.max(incr[j]+1, incr[i]);
+					incr_flag=true;
+				}
+				if(B[j]<B[i]) {
+					decr[i]=Math.max(decr[j]+1, decr[i]);
+					decr_flag=true;
+				}
+			}
+		}
+		
+		decr=reverse(decr, n);
+
+		for(int i=1;i<n-1;i++) {
+			if(incr[i]>1&&decr[i]>1) {
+				int helper=incr[i]+decr[i]-1;
+				if(helper>res) {
+					res=helper;
+				}
+			}
+		}
+		
+		if(incr_flag&&decr_flag) {
+			return res;
+		}
+		else {
+			return 0;
+		}
+    } // end of procedure LongestBubble()
+
+public static int[] reverse(int a[], int n) 
+    { 
+        int[] b = new int[n]; 
+        int j = n; 
+        for (int i = 0; i < n; i++) { 
+            b[j - 1] = a[i]; 
+            j = j - 1; 
+        } 
+        return b;
+    } 
